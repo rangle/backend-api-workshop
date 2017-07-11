@@ -53,10 +53,6 @@ List<Item> itemsByDate = ItemByDateService.getItemsByDate();
   to build the Java for your XML API!”
 </blockquote>
 
-Note: 
-This is what a lot of code looks like, even today.  
-We have frontends which have to know the backend, down to what code to run.
-
 ---
 
 **what ReST is**
@@ -66,15 +62,13 @@ We have frontends which have to know the backend, down to what code to run.
 - Uses URLs to describe Nouns
 
 <div class="fragment">
-also: 
+<p><b>Also:</b></p>
+<ul>
+  <li>Useful in many cases, but not a panacea</li>
+  <li>A tool, not a dogma</li>
+</ul>
 
-- Useful in many cases, but not a panacea
-- A tool, not a dogma
 </div>
-
-Note: Recurring theme:
-
-use the tools that are useful, where they're useful
 
 ---
 
@@ -141,16 +135,19 @@ POST /getLatestUpdatesFromTwitterService
 GET /tweets/@raffi_rc
 ```
 
+<br>
 <ul class="fragment">
-  <li>We're using the URL to describe the data we want, not the service we want to talk to.</li>
-  <li>The URL is uniquely identifying the data we want to see.</li>
-  <li>We're using the HTTP Method to define what we want to do with that unique resource.</li>
+  <li><b>URL:</b> Describe the data we want, not the service we need.</li>
+  <li><b>URL:</b> Uniquely identify the data we want to see.</li>
+  <li><b>HTTP:</b> Use the Method to define the verb.</li>
 </ul>
+
+
+
+---
 
 Note: 
 Exercise: Build an API
-
----
 
 ---
 
@@ -190,10 +187,14 @@ We're building the API for consumers.
 Request:  `DELETE /blogs/123/`  
 Problem: It doesn't exist
 
-Which is a better consumer experience?
+<div class="fragment">
+  <p><b>Which is a better consumer experience?</b></p>
 
-- OK - The thing you wanted gone is gone
-- ERROR! - Can't find the thing you want to be gone
+  <ul>
+    <li>OK - The thing you wanted gone is gone</li>
+    <li>ERROR! - Can't find the thing you want to be gone</li>
+  </ul>
+</div>
 
 ---
 
@@ -202,10 +203,15 @@ Which is a better consumer experience?
 Request:  `GET /blogs/123/comments/`  
 Problem: No comments exist on the post yet.
 
-Which is a better consumer experience?
+<div class="fragment">
 
-- OK - Here is the list of 0 comments
-- ERROR! - Can't find any comments for this post
+  <p><b>Which is a better consumer experience?</b></p>
+
+  <ul>
+    <li>OK - Here is the list of 0 comments</li>
+    <li>ERROR! - Can't find any comments for this post</li>
+  </ul>
+</div>
 
 ---
 
@@ -214,7 +220,8 @@ Which is a better consumer experience?
 Request:  `GET /blogs/123/`  
 Problem: User wants to use the `similarArticles` list on the object; there are none.
 
-Which is a better consumer experience?
+<div class="fragment">
+  <p><b>Which is a better consumer experience?</b></p>
 
 ```json
 // OK
@@ -239,7 +246,8 @@ Which is a better consumer experience?
 Request:  `GET /blogs/123/comments/`  
 Problem: User wants to use the `comments` for a given `Blog`.
 
-Which is a better consumer experience?
+<div class="fragment">
+<p><b>Which is a better consumer experience?</b></p>
 
 ```json
 [
@@ -278,6 +286,8 @@ That's fine; just pick a standard for root level meta versus data, and stick to 
 
 ---
 
+---
+
 > “How am I supposed to get all of this perfect, the first time.” 
 
 <div class="fragment">Don’t worry. You can’t.</div>
@@ -305,8 +315,105 @@ Users are either getting
 
 `v2.4` and `v24` might not be the same, but are both valid approaches.
 
-Note: Consumers don't care what optimizations or server language changes they are opting into.  
-Underlying performance improvements should happen without their effort.
+---
+
+Old
+
+```typescript
+interface PayloadV1 {
+  id: number | string;
+  // ...
+}
+```
+
+New
+
+```typescript
+interface PayloadV2 {
+  id: string;
+  // ...
+}
+```
+
+---
+
+Old
+
+```typescript
+interface PayloadV1 {
+  id: number;
+  // ...
+}
+```
+
+New
+
+```typescript
+interface PayloadV2 {
+  id: string;
+  // ...
+}
+```
+
+---
+
+Old
+
+```typescript
+interface PayloadV1 {
+  a: A;
+  b: B;
+}
+```
+
+New
+
+```typescript
+interface PayloadV2 {
+  a: A;
+  b: B;
+  c: C;
+}
+```
+
+---
+
+Old
+
+```typescript
+interface PayloadV1 {
+  items?: Item[];
+}
+```
+
+New
+
+```typescript
+interface PayloadV2 {
+  items: Item[];
+}
+```
+
+---
+
+Old
+
+```typescript
+interface PayloadV1 {
+  a: A;
+  b: B;
+}
+```
+
+New
+
+```typescript
+interface PayloadV2 {
+  a: A;
+  b: B | BSquared;
+  c: C;
+}
+```
 
 ---
 
@@ -412,7 +519,7 @@ not its code-gen.
 
 ---
 
-### Consuming APIs 
+### Consuming APIs
 
 ---
 
@@ -433,8 +540,10 @@ not its code-gen.
 **Problem:**  
 Data shape is deep/complex, and difficult to reason/navigate.
 
-**Solution:**  
-Frontend DSL
+<div class="fragment">
+  <b>Solution:</b>  
+  Frontend DSL
+</div>
 
 ---
 
@@ -443,7 +552,19 @@ Frontend DSL
 **Domain Specific Language**
 
 There are textbooks dedicated to this topic.  
-In short, name things that provide value, in ways everyone understands.
+In short, name things that provide value, in ways everyone understands.  
+
+"Everyone" _includes_ non-technical teams.
+
+<div class="fragment">
+  <b>Again</b>  
+
+  <ul>
+    <li>Useful tool</li>
+    <li>Not a religion</li>
+    <li>Use the useful parts, simplify, and toss the cruft.</li>
+  </ul>
+</div>
 
 ---
 
@@ -461,6 +582,40 @@ In short, name things that provide value, in ways everyone understands.
 - Don't go overboard; define meaningful objects, not glue
 - Do formalize glue, if it becomes important *when* it does
 
+
+---
+
+```http
+GET /bands/the+beatles/band-members/
+```
+
+```json
+{
+  "data": [
+    { "id": "123", "name": { "first": "Paul",   "last": "McCartney" } },
+    { "id": "234", "name": { "first": "John",   "last": "Lennon"    } },
+    { "id": "345", "name": { "first": "George", "last": "Harrison"  } },
+    { "id": "456", "name": { "first": "Ringo",  "last": "Starr"     } }
+  ]
+}
+```
+
+---
+
+```typescript
+interface Person {
+  id: string;
+  name: { first: string; last: string };
+}
+```
+
+```typescript
+interface Artist {
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+```
 
 ---
 
@@ -513,12 +668,6 @@ interface Band {
   members: BandMember[];
 }
 ```
-
----
-
-- What problems did we just solve for ourselves?
-- What problems did we just solve for future teammates?
-- How can we apply this to designing / updating backend services?
 
 ---
 
@@ -578,9 +727,6 @@ class BandService {
 
 ---
 
-- What problems did we just solve?
-- What benefits did we just gain?
-
 ---
 
 **Testability**
@@ -628,13 +774,6 @@ const bandService = new BandService(
 
 ---
 
-- What problems have we solved?
-- What SOLID principles have we used?
-- What opportunities have we created?
-- How could we use this to easily migrate between API versions or even between APIs?
-
----
-
 ---
 
 ### Dealing with Humans
@@ -644,10 +783,16 @@ const bandService = new BandService(
 **Problem:**  
 You need to make headway on the project *now*, but the API doesn't exist yet.
 
+---
 
-Note:
-- Make a DSL  
-- Make a mock data-service
+<div class="fragment">
+  <ul>
+    <li>Define your DSL</li>
+    <li>Mock Data, based on ideal or expected input</li>
+    <li>Transform Layer</li>
+    <li>Service used through app, serving mock data</li>
+  </ul>
+</div>
 
 ---
 
@@ -656,10 +801,39 @@ The API keeps changing from under your nose; the backend team swears their relea
 
 ---
 
+<div>
+  <ul>
+    <li>Define your DSL</li>
+    <li>Mock Data, based on ideal or expected input</li>
+    <li>Transform Layer</li>
+    <li>Service used through app, serving mock data</li>
+    <li>Integration tests</li>
+  </ul>
+  <br><br>
+  <div class="fragment">
+    <div>Keep tests aligned with API docs.</div>
+    <div>Show tests passing on mock data, and failing on live data.</div>
+    <div>Keep your complexity in the transform layer.</div>
+  </div>
+</div>
+
+---
+
 **Problem:**  
 The backend team is in the middle of migrating a huge system, between XML and JSON, and between a typical WebService and REST.
 
 They would like our input.
+
+---
+
+<div>
+  <ul>
+    <li>All of the previous answers</li>
+    <li>Use Swagger or RAML to outline your ideal API</li>
+    <li>Write XML and JSON versions of the transform</li>
+    <li>Version the API for seamless transition</li>
+  </ul>
+</div>
 
 ---
 
