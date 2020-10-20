@@ -5,6 +5,6 @@
     "present": "reveal-md content/deck.md"
   },
   "dependencies": {
-    "reveal-md": "0.0.32"
+    "reveal-md": "0.0.33"
   }
 }
